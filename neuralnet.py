@@ -1,6 +1,5 @@
 """
 Computes the acceleration and steering given a chromosome and input node activations
-Oh boy get ready to wave those hands
 
 This neural network is a multi layer perceptron. 
 It takes inputs as a list of values which do NOT need to be normalized.
@@ -112,7 +111,6 @@ def rand_between(num1, num2):
     low = num1
   return np.random.rand()*(high - low) + low
 
- #This is embarassing don't look at it 
 def get_skewed_value(v1, v2, f1, f2):
     fitness_ratio = 0
     if(f1 > 0 and f2 > 0):
@@ -212,7 +210,7 @@ def get_new_generation(chromosomes, fitnesses):
     for child in range(len(children)):
         mutated_children.append(mutate(children[child], children_fitnesses[child], children_fitnesses[child]/total_fitness))
     np.random.shuffle(mutated_children)
-    return mutated_children #Those poor kids
+    return mutated_children 
 
 
 def import_chromosomes(timestamp):

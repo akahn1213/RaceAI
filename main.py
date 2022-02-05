@@ -7,11 +7,11 @@ from random import randint
 from pyglet.window import key
 from pyglet.image import Animation, AnimationFrame
 import numpy as np
-import time as tim
+import time as timer
 from time import gmtime, strftime
 import os, sys
 
-wbatch = pyglet.graphics.Batch() #Idk wtf this does I tried to make the cars explode and this seemed relevant
+wbatch = pyglet.graphics.Batch() 
 
 window = pyglet.window.Window(height=config.window_height,
                               width=config.window_width)
@@ -20,12 +20,12 @@ window.push_handlers(keys)
 
 cars = []
 n_cars = 10
+n_chromosomes = 10
 n_enabled_cars = 0
-n_chromosomes = n_cars #aka bad programming
 chromosomes = []
 population = [] #When a car crashes or gets stuck, its chromosome will be appended to the "population" list
 population_fitness = []
-stuck_time = 10. #After this many seconds, if a car hasn't moved stuck_distance pixels, then it is considered stuck and sent to the netherlands
+stuck_time = 10. #After this many seconds, if a car hasn't moved stuck_distance pixels, then it is considered stuck
 stuck_distance = 300. #If a car hasn't moved this many pixels in stuck_time seconds, it is stuck
 starting_positions = []
 
@@ -66,10 +66,10 @@ for i in range(n_chromosomes):
 n_enabled_cars = n_cars #Enable all cars. Disabled cars will not be drawn, and once all cars are disabled, either after crashing or getting stuck, a new run will start
     
     
-time_start = tim.time() #Our good boy tim, he has an expensive wrist watch
+time_start = timer.time() 
 time_passed = 0 #This will be used to count up to stuck_time, to check if any cars are stuck
 
-def enableCars(chromes): #In the future, everything is chromes
+def enableCars(chromes): 
     global starting_positions
     global cars
     global n_enabled_cars
@@ -100,7 +100,7 @@ def update(time):
     global n_enabled_cars
     global cars
     global stuck_time
-    time_passed = tim.time() - time_start #Keep up the good work tim
+    time_passed = timer.time() - time_start 
 
 
     #Check if any cars are stuck after stuck_time seconds have passed
@@ -110,12 +110,12 @@ def update(time):
                 if(np.absolute(car.distance_traveled - car.distance_check) < stuck_distance): #Condition for a car being stuck
                     car.stuck = True
                 car.distance_check = car.distance_traveled #If it is not stuck, set it's starting distance for the next round of stuck-checking to be its current distance
-        time_start = tim.time() #Countin' on you, tim
+        time_start = timer.time() 
         time_passed = 0. #Reset the clock
     
     #When all cars have been deleted
     if(n_enabled_cars == 0):
-        pyglet.clock.unschedule(update) #I though this would help fix some strange bugs, by turning off the game clock until the re-initialization of cars is complete. Idk if that's true but I'm keeping it anyway
+        pyglet.clock.unschedule(update) 
         #Generate a new population
         chromosomes = neuralnet.get_new_generation(population, population_fitness) #Sends the previous population of chromosomes to the neural net and produces a new generation
         np.random.shuffle(chromosomes) #Reduce bias by randomizing the chromosomes
@@ -126,7 +126,7 @@ def update(time):
             cars[i].enable(starting_positions[i], chromosomes[i]) 
             n_enabled_cars += 1
         pyglet.clock.schedule_interval(update, 1/60.0) #Restart the game clock, which ticks at (ideally) 60fps
-        time_start = tim.time() #Tell tim to do what he does best
+        time_start = timer.time() 
         time_passed = 0. #Reset the clock
     
     #Check if any cars have crashed, and disable them
